@@ -1,12 +1,9 @@
 FROM continuumio/miniconda3
 
-# Copy environment.yml to container
 COPY environment.yml /tmp/environment.yml
 
-# Create conda environment
-RUN conda env create -f /tmp/environment.yml
+RUN conda env create -f /tmp/environment.yml && conda clean -afy
 
-# Activate environment and set PATH
 SHELL ["conda", "run", "-n", "deeptcr-env", "/bin/bash", "-c"]
 
 WORKDIR /DeepTCR
