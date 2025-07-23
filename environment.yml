@@ -3,11 +3,11 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.8
-  - pip
+  - python=3.7
   - numpy=1.18.*
-  - llvmlite=0.36.0
+  - llvmlite=0.36.0          # install via conda
+  - pip                      # keep pip for packages only on PyPI
   - pip:
-      - tensorflow==1.15
+      - tensorflow==1.15     # these packages come from pip
       - keras==2.2.4
       - DeepTCR @ git+https://github.com/sidhomj/DeepTCR.git
