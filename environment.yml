@@ -1,0 +1,14 @@
+name: myenv
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - numpy=1.18
+  - pip
+  - llvmlite=0.35.0
+  - tensorflow=2.2.0
+  - keras=2.3.1
+  - h5py=2.10.0
+  - pip:
+      - git+https://github.com/sidhomj/DeepTCR.git
