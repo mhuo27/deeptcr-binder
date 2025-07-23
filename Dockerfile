@@ -1,21 +1,19 @@
-FROM python:3.7
+FROM continuumio/miniconda3
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    git \
-    wget \
-    curl \
-    python3.7-dev
+# Copy environment.yml into the image
+COPY environment.yml /tmp/environment.yml
 
-RUN pip install --upgrade pip
-RUN pip install numpy==1.19.5 keras==2.2.4 tensorflow==1.15
-RUN pip install llvmlite==0.36.0
+# Create the conda environment from environment.yml and clean up
+RUN conda env create -f /tmp/environment.yml && conda clean -afy
 
-# Clone DeepTCR
-RUN git clone https://github.com/sidhomj/DeepTCR.git /DeepTCR
+# Activate environment and set shell for next commands
+SHELL ["conda", "run", "-n", "deeptcr-env", "/bin/bash", "-c"]
+
+# Set working directory (optional, if you have local code to add)
 WORKDIR /DeepTCR
-RUN python setup.py install
 
+# Expose Jupyter port
 EXPOSE 8888
 
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
+# Run Jupyter Notebook inside the conda environment
+CMD ["conda", "run", "--no-capture-output", "-n", "deeptcr-env", "jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
