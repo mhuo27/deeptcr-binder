@@ -27,4 +27,4 @@ RUN python -m ipykernel install --name "deeptcr-env" --display-name "Python (dee
 WORKDIR /home/jovyan
 
 # Launch Jupyter Notebook on container start
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--NotebookApp.token=''", "--no-browser", "--allow-root"]
+CMD ["sleep", "3600"]
