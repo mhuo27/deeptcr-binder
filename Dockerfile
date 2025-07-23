@@ -1,36 +1,20 @@
-# Use the official Jupyter minimal-notebook base image with Python 3.7
-FROM jupyter/minimal-notebook:python-3.7.16
+FROM python:3.7
 
-# Switch to root to install extra system packages if needed
-USER root
-
-# Install system dependencies needed for building some Python packages
 RUN apt-get update && apt-get install -y \
     build-essential \
-    gcc \
-    g++ \
-    libffi-dev \
-    libssl-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    git \
+    wget \
+    curl \
+    python3.7-dev
 
-# Switch back to jovyan user
-USER $NB_UID
+RUN pip install --upgrade pip
+RUN pip install numpy==1.19.5 keras==2.2.4 tensorflow==1.15
 
-# Copy your environment.yml file to the notebook directory
-COPY environment.yml /home/jovyan/
+# Clone DeepTCR
+RUN git clone https://github.com/sidhomj/DeepTCR.git /DeepTCR
+WORKDIR /DeepTCR
+RUN python setup.py install
 
-# Create conda environment from environment.yml
-RUN conda env create -f /home/jovyan/environment.yml && \
-    conda clean -a -y
+EXPOSE 8888
 
-# Make sure the notebook uses the new environment
-RUN echo "conda activate myenv" >> /home/jovyan/.bashrc
-
-# Set environment variables
-ENV PATH /opt/conda/envs/myenv/bin:$PATH
-
-# Set working directory
-WORKDIR /home/jovyan
-
-# Expose port and start notebook
-CMD ["start-notebook.sh"]
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
