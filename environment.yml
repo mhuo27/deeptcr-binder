@@ -4,8 +4,8 @@ channels:
   - defaults
 dependencies:
   - python=3.7
-  - llvmlite=0.36.0     # conda installs this specific version
   - numpy=1.18.*
+  - llvmlite=0.36.0
   - pip
   - pip:
       - tensorflow==1.15
