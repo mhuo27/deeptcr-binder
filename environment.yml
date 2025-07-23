@@ -7,7 +7,7 @@ dependencies:
   - numpy=1.18.*
   - tensorflow=1.15
   - keras=2.2.4
-  - llvmlite=0.36.0
+  - llvmlite=0.35.0
   - pip
   - pip:
       - DeepTCR @ git+https://github.com/sidhomj/DeepTCR.git
