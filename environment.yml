@@ -4,9 +4,10 @@ channels:
   - defaults
 dependencies:
   - python=3.7
-  - pip
   - numpy=1.18.*
+  - tensorflow=1.15
+  - keras=2.2.4
+  - llvmlite=0.36.0
+  - pip
   - pip:
-      - tensorflow==1.15
-      - keras==2.2.4
       - DeepTCR @ git+https://github.com/sidhomj/DeepTCR.git
