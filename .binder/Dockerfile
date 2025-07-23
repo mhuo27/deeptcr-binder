@@ -1,7 +1,6 @@
-# Use official Python 3.7 slim image
 FROM python:3.7-slim
 
-# Install system dependencies
+# System dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
@@ -12,17 +11,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Upgrade pip
 RUN pip install --upgrade pip
 
-# Install specific package versions compatible with DeepTCR
+# Install Jupyter
+RUN pip install notebook ipykernel
+
+# Install DeepTCR dependencies
 RUN pip install numpy==1.18.0 tensorflow==1.15 keras==2.2.4
 
-# Install DeepTCR directly from GitHub
+# Install DeepTCR
 RUN pip install git+https://github.com/sidhomj/DeepTCR.git
 
-# Set working directory
+# Set workdir (optional)
 WORKDIR /home/jovyan
 
-# Expose Jupyter port
+# Expose Jupyter
 EXPOSE 8888
 
-# Run Jupyter notebook with no browser, accessible on all interfaces
+# Start Jupyter
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
