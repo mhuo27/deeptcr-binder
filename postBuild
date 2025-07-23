@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Testing DeepTCR import..."
+python -c "from DeepTCR.DeepTCR import DeepTCR; print('DeepTCR imported successfully')"
+
+echo "Setup complete!"
