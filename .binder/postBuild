@@ -1,0 +1,2 @@
+#!/bin/bash
+python -m ipykernel install --user --name deeptcr-env --display-name "Python (deeptcr-env)"
