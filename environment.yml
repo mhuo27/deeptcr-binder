@@ -5,9 +5,9 @@ channels:
 dependencies:
   - python=3.7
   - numpy=1.18.*
-  - llvmlite=0.36.0          # install via conda
-  - pip                      # keep pip for packages only on PyPI
+  - llvmlite=0.36.0        # <-- move llvmlite here under conda deps
+  - pip
   - pip:
-      - tensorflow==1.15     # these packages come from pip
+      - tensorflow==1.15
       - keras==2.2.4
       - DeepTCR @ git+https://github.com/sidhomj/DeepTCR.git
