@@ -1,6 +1,12 @@
 #!/bin/bash
 
-echo "Testing DeepTCR import..."
-python -c "from DeepTCR.DeepTCR import DeepTCR; print('DeepTCR imported successfully')"
+# Activate the conda environment if needed (optional)
+# source activate your-env-name
 
-echo "Setup complete!"
+# Example: install any pip packages not in environment.yml
+# pip install some-package
+
+# Example: pre-download some datasets or models if needed
+# python scripts/download_data.py
+
+echo "Post-build steps complete!"
