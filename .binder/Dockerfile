@@ -1,30 +1,27 @@
 FROM python:3.7-slim
 
-# System dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
-    wget \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip
+# Install Python packages
 RUN pip install --upgrade pip
 
-# Install Jupyter
+# Install Jupyter + IPython kernel
 RUN pip install notebook ipykernel
 
-# Install DeepTCR dependencies
-RUN pip install numpy==1.18.0 tensorflow==1.15 keras==2.2.4
-
-# Install DeepTCR
+# Install DeepTCR dependencies and DeepTCR
+RUN pip install numpy==1.18 tensorflow==1.15 keras==2.2.4
 RUN pip install git+https://github.com/sidhomj/DeepTCR.git
 
-# Set workdir (optional)
+# Create a Jupyter kernel spec so it appears in the notebook UI
+RUN python -m ipykernel install --name "deeptcr-env" --display-name "Python (deeptcr-env)"
+
+# Set working directory
 WORKDIR /home/jovyan
 
-# Expose Jupyter
-EXPOSE 8888
-
-# Start Jupyter
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
+# Binder expects this to run automatically
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
