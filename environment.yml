@@ -1,11 +1,10 @@
-name: deeptcr
+name: deeptcr-env
 channels:
+  - defaults
   - conda-forge
+  - bioconda
 dependencies:
   - python=3.7
-  - numpy=1.18
   - pip
   - pip:
-    - tensorflow==2.2.0
-    - keras==2.7.0
     - git+https://github.com/sidhomj/DeepTCR.git
