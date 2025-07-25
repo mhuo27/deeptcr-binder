@@ -1,29 +1,30 @@
 FROM python:3.7-slim
 
-# Install system packages required for Jupyter + kernels
+# Avoid interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Speed up installs and avoid cache bloat
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    curl \
     git \
-    bash \
+    wget \
+    curl \
     ca-certificates \
-    libzmq5 \
-    libffi-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set up working directory
-WORKDIR /home/jovyan
+# Set workdir
+WORKDIR /home/deeptcr-binder
 
-# Install Python packages including Jupyter and ipykernel
+# Copy code before installing requirements for Docker layer caching
 COPY requirements.txt ./
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    pip install notebook ipykernel && \
-    python -m ipykernel install --user
 
-# Expose port
-EXPOSE 8888
+# Pin NumPy and Cython to avoid build errors and improve startup
+RUN pip install --upgrade pip \
+ && pip install numpy==1.21.6 cython==0.29.36 \
+ && pip install -r requirements.txt
 
-# Default command
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
+# Copy rest of your repo
+COPY . .
+
+# Set default command for Binder
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser"]
